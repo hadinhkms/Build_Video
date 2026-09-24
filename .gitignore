@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+
+# Remotion & Render outputs
+.remotion/
+dist/
+output/clips/
+output/*.mp4
+*.log
+
+# Reference sources
+_ref_sources/
+
+# OS files
+Thumbs.db
+.DS_Store

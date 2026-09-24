@@ -1,0 +1,30 @@
+{
+  "environments": {
+    "phong_khach_dem_mua": {
+      "id": "env_01",
+      "name": "Phòng khách đêm mưa",
+      "spatial_anchors": {
+        "left": "large arched glass window with raindrops streaming down, view of blurry city streetlamps outside",
+        "center": "vintage wooden coffee table with a steaming ceramic cup and an open old notebook",
+        "right": "classic brass floor standing lamp emitting warm golden diffused light",
+        "background": "dark mahogany floor-to-ceiling bookshelf filled with aged leather-bound books"
+      },
+      "lighting": "dramatic Rembrandt lighting, cool desaturated blue-cyan rainy ambient light from window contrasting with warm golden 2700K tungsten lamp glow, deep moody shadows",
+      "weather": "heavy midnight rain, atmospheric subtle haze in the air",
+      "camera_profile": "cinematic film still, 35mm anamorphic lens, shot on Arri Alexa, Kodak Vision3 500T film grain, shallow depth of field"
+    },
+    "con_hem_co_dien": {
+      "id": "env_02",
+      "name": "Con hẻm nhỏ tĩnh lặng",
+      "spatial_anchors": {
+        "left": "weathered yellow colonial building wall with peeling paint and moss",
+        "center": "narrow wet reflective asphalt alleyway with puddles mirroring streetlights",
+        "right": "old wooden shutter doors closed tight, dangling vintage electric wires overhead",
+        "background": "misty vanishing perspective into the gloomy foggy distance"
+      },
+      "lighting": "flickering sodium-vapor streetlamp amber glow, cool rainy reflections on wet ground",
+      "weather": "drizzling fog at midnight",
+      "camera_profile": "cinematic wide establishing shot, 24mm wide angle lens, Arri Alexa, filmic shadows"
+    }
+  }
+}

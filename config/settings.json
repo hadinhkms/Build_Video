@@ -1,0 +1,38 @@
+{
+  "project_name": "Short_Film_Audio_Story",
+  "version": "1.0.0",
+  "video": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 24,
+    "aspect_ratio": "16:9",
+    "video_codec": "libx264",
+    "pixel_format": "yuv420p",
+    "crf": 19,
+    "preset": "medium"
+  },
+  "audio": {
+    "default_voice": "vi-VN-NamMinhNeural",
+    "alternative_voice": "vi-VN-HoaiMyNeural",
+    "voice_rate": "+0%",
+    "voice_volume": "+0%",
+    "sample_rate": 44100,
+    "levels": {
+      "voice_gain_db": 0.0,
+      "sfx_gain_db": -8.0,
+      "bgm_gain_db": -22.0
+    },
+    "dramatic_pause_sec": 0.9
+  },
+  "visuals": {
+    "shot_min_duration": 4.0,
+    "shot_max_duration": 6.5,
+    "enable_ken_burns": true,
+    "enable_subtitles": true,
+    "subtitle_font": "Arial",
+    "subtitle_font_size": 34,
+    "subtitle_primary_color": "&H00FFFFFF",
+    "subtitle_outline_color": "&H00000000",
+    "subtitle_highlight_color": "&H0000E5FF"
+  }
+}
