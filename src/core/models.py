@@ -55,6 +55,7 @@ class Shot(BaseModel):
     prompt: str = ""
     duration: float = 5.0
     audio_file: Optional[str] = None
+    words_file: Optional[str] = None  # [{text, start, end}] từ Edge-TTS WordBoundary
     image_file: Optional[str] = None
     video_clip_file: Optional[str] = None
     status: ShotStatus = ShotStatus.PENDING

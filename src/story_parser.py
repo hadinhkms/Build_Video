@@ -32,13 +32,23 @@ class StoryParser:
         ]
         return ", ".join(prompt_parts)
 
+    @staticmethod
+    def split_sentences(raw_text: str) -> list:
+        """
+        Chia theo ngắt dòng hoặc dấu . ! ? + khoảng trắng, giữ nguyên dấu câu cho TTS.
+        Không cắt tại dấu "..." / "…" giữa câu (khoảng lặng kịch tính), nếu không sẽ sinh
+        ra mảnh câu mồ côi ngắn hơn thời lượng shot tối thiểu.
+        Bỏ các dòng không có chữ/số ("...", ". . .", "***"): Edge-TTS không đọc được và báo NoAudioReceived.
+        """
+        parts = re.split(r'\n+|(?<=[.!?])(?<!\.\.)\s+', raw_text)
+        return [s.strip() for s in parts if s and re.search(r'\w', s)]
+
     def parse_chapter_to_storyboard(self, raw_text: str, default_char="nhan_vat_chinh", default_env="phong_khach_dem_mua") -> list:
         """
         Chia nhỏ văn bản chương truyện thành các shot 4-6 giây.
         Áp dụng quy tắc Hook đầu video, luân chuyển góc máy, và chuyển động camera.
         """
-        # Chia theo câu hoặc ngắt đoạn
-        sentences = [s.strip() for s in re.split(r'[.\n]+', raw_text) if s.strip()]
+        sentences = self.split_sentences(raw_text)
         if not sentences:
             return []
 
