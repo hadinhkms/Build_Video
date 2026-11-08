@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "chapterId": "sample_chapter",
+  "title": "Chương 1: Đêm mưa",
+  "fps": 24,
+  "width": 1920,
+  "height": 1080,
+  "scenes": [
+    {
+      "id": "shot_00",
+      "kind": "story",
+      "act": "HOOK",
+      "rawText": "Đêm hôm đó...",
+      "voiceText": "Đêm hôm đó...",
+      "speaker": "narrator",
+      "isDialogue": false,
+      "onScreenCharacterId": null,
+      "environmentId": "phong_khach_dem_mua",
+      "shotType": "closeup",
+      "cameraMotion": "rapid_zoom_in",
+      "durationInFrames": 120,
+      "audio": null,
+      "words": [],
+      "captions": [],
+      "sfx": [],
+      "visual": {
+        "mode": "full_image",
+        "imageSrc": "chapters/sample_chapter/images/shot_00.jpg",
+        "backgroundSrc": null,
+        "characterSrc": null
+      }
+    }
+  ],
+  "ambience": [],
+  "bgm": null
+}

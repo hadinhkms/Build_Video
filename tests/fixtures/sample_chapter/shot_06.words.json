@@ -1,0 +1,87 @@
+[
+ {
+  "text": "Và",
+  "start": 0.1,
+  "end": 0.35
+ },
+ {
+  "text": "rồi",
+  "start": 0.35,
+  "end": 0.65
+ },
+ {
+  "text": "Nam",
+  "start": 0.8125,
+  "end": 1.125
+ },
+ {
+  "text": "từ",
+  "start": 1.125,
+  "end": 1.2875
+ },
+ {
+  "text": "từ",
+  "start": 1.2875,
+  "end": 1.4625
+ },
+ {
+  "text": "ngẩng",
+  "start": 1.4625,
+  "end": 1.725
+ },
+ {
+  "text": "đầu",
+  "start": 1.725,
+  "end": 1.9
+ },
+ {
+  "text": "lên",
+  "start": 1.9,
+  "end": 2.2375
+ },
+ {
+  "text": "khóe",
+  "start": 2.4,
+  "end": 2.65
+ },
+ {
+  "text": "miệng",
+  "start": 2.65,
+  "end": 2.9125
+ },
+ {
+  "text": "khẽ",
+  "start": 2.9125,
+  "end": 3.0625
+ },
+ {
+  "text": "nhếch",
+  "start": 3.0625,
+  "end": 3.3
+ },
+ {
+  "text": "một",
+  "start": 3.3,
+  "end": 3.4875
+ },
+ {
+  "text": "nụ",
+  "start": 3.4875,
+  "end": 3.7
+ },
+ {
+  "text": "cười",
+  "start": 3.7,
+  "end": 3.95
+ },
+ {
+  "text": "kỳ",
+  "start": 3.95,
+  "end": 4.175
+ },
+ {
+  "text": "lạ",
+  "start": 4.175,
+  "end": 4.5375
+ }
+]

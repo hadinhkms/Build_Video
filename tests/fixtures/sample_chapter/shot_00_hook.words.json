@@ -1,0 +1,112 @@
+[
+ {
+  "text": "Đêm",
+  "start": 0.1,
+  "end": 0.4
+ },
+ {
+  "text": "hôm",
+  "start": 0.4,
+  "end": 0.575
+ },
+ {
+  "text": "đó",
+  "start": 0.575,
+  "end": 0.9
+ },
+ {
+  "text": "tôi",
+  "start": 1.05,
+  "end": 1.2375
+ },
+ {
+  "text": "nhận",
+  "start": 1.2375,
+  "end": 1.5
+ },
+ {
+  "text": "ra",
+  "start": 1.5,
+  "end": 1.625
+ },
+ {
+  "text": "kẻ",
+  "start": 1.625,
+  "end": 1.8875
+ },
+ {
+  "text": "đang",
+  "start": 1.8875,
+  "end": 2.0375
+ },
+ {
+  "text": "ngồi",
+  "start": 2.0375,
+  "end": 2.2125
+ },
+ {
+  "text": "lặng",
+  "start": 2.2125,
+  "end": 2.4625
+ },
+ {
+  "text": "lẽ",
+  "start": 2.4625,
+  "end": 2.6625
+ },
+ {
+  "text": "đối",
+  "start": 2.6625,
+  "end": 2.825
+ },
+ {
+  "text": "diện",
+  "start": 2.825,
+  "end": 3.05
+ },
+ {
+  "text": "mình",
+  "start": 3.05,
+  "end": 3.2875
+ },
+ {
+  "text": "trong",
+  "start": 3.2875,
+  "end": 3.475
+ },
+ {
+  "text": "phòng",
+  "start": 3.475,
+  "end": 3.65
+ },
+ {
+  "text": "khách",
+  "start": 3.65,
+  "end": 3.9375
+ },
+ {
+  "text": "không",
+  "start": 3.9375,
+  "end": 4.2375
+ },
+ {
+  "text": "hề",
+  "start": 4.2375,
+  "end": 4.425
+ },
+ {
+  "text": "có",
+  "start": 4.425,
+  "end": 4.575
+ },
+ {
+  "text": "hơi",
+  "start": 4.575,
+  "end": 4.75
+ },
+ {
+  "text": "thở",
+  "start": 4.75,
+  "end": 5.1625
+ }
+]

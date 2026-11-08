@@ -1,0 +1,107 @@
+[
+ {
+  "text": "Tôi",
+  "start": 0.1,
+  "end": 0.3625
+ },
+ {
+  "text": "run",
+  "start": 0.3625,
+  "end": 0.625
+ },
+ {
+  "text": "rẩy",
+  "start": 0.625,
+  "end": 0.7875
+ },
+ {
+  "text": "lùi",
+  "start": 0.7875,
+  "end": 0.9875
+ },
+ {
+  "text": "lại",
+  "start": 0.9875,
+  "end": 1.1375
+ },
+ {
+  "text": "một",
+  "start": 1.1375,
+  "end": 1.325
+ },
+ {
+  "text": "bước",
+  "start": 1.325,
+  "end": 1.575
+ },
+ {
+  "text": "bàn",
+  "start": 1.775,
+  "end": 2.0375
+ },
+ {
+  "text": "tay",
+  "start": 2.0375,
+  "end": 2.275
+ },
+ {
+  "text": "vô",
+  "start": 2.275,
+  "end": 2.4
+ },
+ {
+  "text": "thức",
+  "start": 2.4,
+  "end": 2.5625
+ },
+ {
+  "text": "chạm",
+  "start": 2.5625,
+  "end": 2.8625
+ },
+ {
+  "text": "vào",
+  "start": 2.8625,
+  "end": 2.975
+ },
+ {
+  "text": "chiếc",
+  "start": 2.975,
+  "end": 3.1875
+ },
+ {
+  "text": "chìa",
+  "start": 3.1875,
+  "end": 3.3875
+ },
+ {
+  "text": "khóa",
+  "start": 3.3875,
+  "end": 3.6375
+ },
+ {
+  "text": "lạnh",
+  "start": 3.6375,
+  "end": 3.85
+ },
+ {
+  "text": "ngắt",
+  "start": 3.85,
+  "end": 4.075
+ },
+ {
+  "text": "trong",
+  "start": 4.075,
+  "end": 4.2875
+ },
+ {
+  "text": "túi",
+  "start": 4.2875,
+  "end": 4.5125
+ },
+ {
+  "text": "áo",
+  "start": 4.5125,
+  "end": 4.8625
+ }
+]

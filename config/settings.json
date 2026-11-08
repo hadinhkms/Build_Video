@@ -12,8 +12,28 @@
     "preset": "medium"
   },
   "audio": {
+    "provider": "edge",
+    "vbee": {
+      "voice_code": "n_hanoi_male_protrainer_education_vc",
+      "speed_rate": 1.0,
+      "poll_timeout_sec": 60
+    },
     "default_voice": "vi-VN-NamMinhNeural",
     "alternative_voice": "vi-VN-HoaiMyNeural",
+    "narrator": {
+      "voice": "vi-VN-NamMinhNeural",
+      "pitch": "+0Hz",
+      "rate": "+0%"
+    },
+    "rate_by_act": {
+      "HOOK": "+0%",
+      "SETUP": "+0%",
+      "RISING": "+5%",
+      "CLIMAX": "+8%",
+      "CLIFFHANGER": "+0%"
+    },
+    "dialect": "bac",
+    "bgm_src": "auto",
     "voice_rate": "+0%",
     "voice_volume": "+0%",
     "sample_rate": 44100,
@@ -32,6 +52,11 @@
   "visuals": {
     "shot_min_duration": 4.0,
     "shot_max_duration": 6.5,
+    "split_min_duration": 2.5,
+    "title_card_sec": 2.5,
+    "end_screen_sec": 10.0,
+    "letterbox_ratio": 2.39,
+    "film_grain": true,
     "enable_ken_burns": true,
     "enable_subtitles": true,
     "subtitle_font": "Arial",
@@ -39,5 +64,10 @@
     "subtitle_primary_color": "&H00FFFFFF",
     "subtitle_outline_color": "&H00000000",
     "subtitle_highlight_color": "&H0000E5FF"
+  },
+  "render": {
+    "renderer": "ffmpeg",
+    "concurrency": null,
+    "crf": 18
   }
 }

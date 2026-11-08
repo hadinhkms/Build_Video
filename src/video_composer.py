@@ -19,22 +19,22 @@ class VideoComposer:
         if motion_type == "zoom_out":
             # Bắt đầu từ 1.15 thu nhỏ dần về 1.0
             return (
-                f"scale=4000:-1,zoompan=z='if(lte(zoom,1.0),1.18,max(1.001,zoom-0.0010))':"
+                f"scale=2560:-1,zoompan=z='if(lte(zoom,1.0),1.18,max(1.001,zoom-0.0010))':"
                 f"d={frames}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s={self.width}x{self.height}:fps={self.fps}"
             )
         elif motion_type == "pan_left":
             return (
-                f"scale=4000:-1,zoompan=z=1.12:x='if(lte(on,1),0,min(iw-iw/zoom,x+1.2))':"
+                f"scale=2560:-1,zoompan=z=1.12:x='if(lte(on,1),0,min(iw-iw/zoom,x+1.2))':"
                 f"y='ih/2-(ih/zoom/2)':d={frames}:s={self.width}x{self.height}:fps={self.fps}"
             )
         elif motion_type == "pan_right":
             return (
-                f"scale=4000:-1,zoompan=z=1.12:x='if(lte(on,1),iw-iw/zoom,max(0,x-1.2))':"
+                f"scale=2560:-1,zoompan=z=1.12:x='if(lte(on,1),iw-iw/zoom,max(0,x-1.2))':"
                 f"y='ih/2-(ih/zoom/2)':d={frames}:s={self.width}x{self.height}:fps={self.fps}"
             )
         else: # default: zoom_in
             return (
-                f"scale=4000:-1,zoompan=z='min(zoom+0.0010,1.18)':"
+                f"scale=2560:-1,zoompan=z='min(zoom+0.0010,1.18)':"
                 f"d={frames}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s={self.width}x{self.height}:fps={self.fps}"
             )
 

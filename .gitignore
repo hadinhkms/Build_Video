@@ -2,13 +2,24 @@
 node_modules/
 __pycache__/
 *.pyc
+cache/
 
 # Remotion & Render outputs
 .remotion/
 dist/
 output/clips/
 output/*.mp4
+output/*/
+remotion/node_modules/
+remotion/public/chapters/
+remotion/out/
+packages/
 *.log
+
+# Khóa API (Vbee...) — chỉ commit .env.example
+.env
+.env.*
+!.env.example
 
 # Reference sources
 _ref_sources/

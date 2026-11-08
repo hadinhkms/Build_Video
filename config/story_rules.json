@@ -1,0 +1,47 @@
+{
+  "tension_keywords": [
+    "không hề có hơi thở",
+    "bí mật",
+    "kinh hoàng",
+    "máu",
+    "chết",
+    "run rẩy"
+  ],
+  "tension_weights": {
+    "keyword": 2,
+    "ellipsis": 2,
+    "question": 1,
+    "exclamation": 1
+  },
+  "emotion_keywords": [
+    "kinh hoàng",
+    "bất ngờ",
+    "bí mật",
+    "không hề",
+    "kỳ lạ"
+  ],
+  "movement_verbs": [
+    "bước",
+    "chạy",
+    "lùi lại",
+    "quay lại",
+    "ngẩng đầu",
+    "lao tới"
+  ],
+  "phrase_starters": [
+    "vào",
+    "trong",
+    "để",
+    "và",
+    "nhưng",
+    "rồi",
+    "khi",
+    "mà",
+    "thì",
+    "với",
+    "trên",
+    "dưới",
+    "từ",
+    "nơi"
+  ]
+}

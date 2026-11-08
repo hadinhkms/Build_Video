@@ -1,0 +1,21 @@
+{
+  "title_template": "{title} | Phim Ngắn Điện Ảnh",
+  "default_tags": [
+    "phim ngắn",
+    "truyện trinh thám",
+    "kịch tính",
+    "điện ảnh 2.5d",
+    "cinestory",
+    "truyện audio",
+    "phim trinh thám",
+    "audio book",
+    "nghẹt thở",
+    "plot twist"
+  ],
+  "description_template": "{hook_summary}\n\n🎬 CHƯƠNG: {title}\n\n📌 NỘI DUNG CHÍNH:\n{content_summary}\n\n{timestamps}\n\n----------------------------------------\n🔔 Đăng ký kênh để không bỏ lỡ chương tiếp theo!\n👍 Nhấn Like và để lại suy đoán của bạn dưới phần bình luận.\n\n#PhimNgan #TruyenTrinhTham #CineStory #AudioBook",
+  "thumbnail_guidelines": {
+    "dimensions": "1280x720",
+    "max_text_words": 5,
+    "recommended_font": "Be Vietnam Pro ExtraBold"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "name": "cinestory-remotion",
+  "version": "1.0.0",
+  "description": "CineStory Remotion Engine",
+  "private": true,
+  "scripts": {
+    "studio": "remotion studio --port 3002",
+    "render": "tsx scripts/render.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --pool=threads",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "@remotion/bundler": "^4.0.407",
+    "@remotion/cli": "4.0.407",
+    "@remotion/google-fonts": "^4.0.407",
+    "@remotion/noise": "^4.0.407",
+    "@remotion/renderer": "^4.0.407",
+    "@remotion/tailwind-v4": "4.0.407",
+    "@remotion/zod-types": "4.0.407",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.407",
+    "tailwindcss": "4.1.1",
+    "tsx": "^4.23.15",
+    "zod": "3.22.3"
+  },
+  "devDependencies": {
+    "@remotion/eslint-config-flat": "4.0.407",
+    "@types/node": "^20.17.0",
+    "@types/react": "19.2.7",
+    "eslint": "9.19.0",
+    "typescript": "5.9.3",
+    "vitest": "^2.1.8"
+  },
+  "sideEffects": [
+    "*.css"
+  ]
+}

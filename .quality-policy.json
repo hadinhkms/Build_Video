@@ -1,0 +1,8 @@
+{
+  "code": {
+    "excludedFolders": [
+      "_ref_sources",
+      "packages"
+    ]
+  }
+}

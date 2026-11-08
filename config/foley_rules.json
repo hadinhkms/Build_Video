@@ -1,0 +1,42 @@
+{
+  "ambience": [
+    {
+      "env_weather_pattern": "rain|drizzle|drizzling",
+      "category": "rain",
+      "volume_db": -20,
+      "fade_sec": 1.5
+    }
+  ],
+  "oneshot": [
+    {
+      "pattern": "tia chớp|chớp giật|chớp|sấm|sét đánh",
+      "exclude": "chớp mắt|nháy mắt",
+      "category": "thunder",
+      "volume_db": -10,
+      "preroll_sec": 0.2
+    },
+    {
+      "pattern": "tim đập|thở dốc|nín thở",
+      "category": "heartbeat",
+      "volume_db": -12
+    },
+    {
+      "pattern": "cọt kẹt|cửa gỗ|đẩy cửa|mở cửa",
+      "category": "door",
+      "volume_db": -10
+    },
+    {
+      "pattern": "bước chân|bước vào|lùi lại",
+      "category": "footsteps",
+      "volume_db": -14
+    }
+  ],
+  "act_defaults": {
+    "HOOK": "heartbeat",
+    "CLIFFHANGER": "heartbeat"
+  },
+  "limits": {
+    "max_oneshot_per_scene": 2,
+    "min_gap_sec": 1.5
+  }
+}

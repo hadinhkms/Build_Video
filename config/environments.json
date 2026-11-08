@@ -11,7 +11,39 @@
       },
       "lighting": "dramatic Rembrandt lighting, cool desaturated blue-cyan rainy ambient light from window contrasting with warm golden 2700K tungsten lamp glow, deep moody shadows",
       "weather": "heavy midnight rain, atmospheric subtle haze in the air",
-      "camera_profile": "cinematic film still, 35mm anamorphic lens, shot on Arri Alexa, Kodak Vision3 500T film grain, shallow depth of field"
+      "camera_profile": "cinematic film still, 35mm anamorphic lens, shot on Arri Alexa, Kodak Vision3 500T film grain, shallow depth of field",
+      "rain_mode": "window",
+      "rain_region": {
+        "x": 0.02,
+        "y": 0.08,
+        "w": 0.30,
+        "h": 0.60
+      },
+      "flicker": true,
+      "default_character_slot": "center",
+      "character_slots": {
+        "left": {
+          "x": 0.28,
+          "y": 1.02,
+          "height": 0.62
+        },
+        "center": {
+          "x": 0.50,
+          "y": 1.02,
+          "height": 0.62
+        },
+        "right": {
+          "x": 0.72,
+          "y": 1.02,
+          "height": 0.62
+        }
+      },
+      "grade": {
+        "css_filter": "saturate(0.85) contrast(1.08) brightness(0.95)",
+        "overlay_gradient": "radial-gradient(circle at 85% 40%, rgba(255,190,110,0.35), transparent 55%)",
+        "overlay_blend": "soft-light",
+        "contact_shadow_opacity": 0.45
+      }
     },
     "con_hem_co_dien": {
       "id": "env_02",
@@ -24,7 +56,34 @@
       },
       "lighting": "flickering sodium-vapor streetlamp amber glow, cool rainy reflections on wet ground",
       "weather": "drizzling fog at midnight",
-      "camera_profile": "cinematic wide establishing shot, 24mm wide angle lens, Arri Alexa, filmic shadows"
+      "camera_profile": "cinematic wide establishing shot, 24mm wide angle lens, Arri Alexa, filmic shadows",
+      "rain_mode": "full",
+      "rain_region": null,
+      "flicker": false,
+      "default_character_slot": "center",
+      "character_slots": {
+        "left": {
+          "x": 0.25,
+          "y": 1.02,
+          "height": 0.60
+        },
+        "center": {
+          "x": 0.50,
+          "y": 1.02,
+          "height": 0.60
+        },
+        "right": {
+          "x": 0.75,
+          "y": 1.02,
+          "height": 0.60
+        }
+      },
+      "grade": {
+        "css_filter": "saturate(0.80) contrast(1.15) brightness(0.90)",
+        "overlay_gradient": "radial-gradient(circle at 50% 20%, rgba(255,180,50,0.25), transparent 70%)",
+        "overlay_blend": "soft-light",
+        "contact_shadow_opacity": 0.50
+      }
     }
   }
 }

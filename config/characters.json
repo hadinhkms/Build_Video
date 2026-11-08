@@ -9,7 +9,11 @@
       "face_reference_image": "assets/characters/main_char_face.jpg",
       "dna_prompt": "Vietnamese man in his late 20s, messy undercut black hair, defined jawline, subtle scar on right eyebrow, deep melancholic eyes with natural catchlights, visible fine skin pores, authentic skin texture",
       "fixed_wardrobe": "dark olive canvas jacket with front pockets over a charcoal crewneck t-shirt",
-      "forbidden_traits": "no anime, no plastic smooth skin, no 3d cartoon, no smiling unless specified"
+      "forbidden_traits": "no anime, no plastic smooth skin, no 3d cartoon, no smiling unless specified",
+      "voice": "vi-VN-NamMinhNeural",
+      "pitch": "-6Hz",
+      "rate": "-5%",
+      "vbee_voice_code": "sg_male_minh_quang_news"
     },
     "nhan_vat_phu": {
       "id": "char_02",
@@ -20,7 +24,11 @@
       "face_reference_image": "assets/characters/female_char_face.jpg",
       "dna_prompt": "25-year-old Vietnamese woman, delicate facial features, shoulder-length straight black hair with subtle bangs, expressive empathetic dark eyes, natural skin texture with subtle blush",
       "fixed_wardrobe": "oversized beige wool knit sweater with high collar, silver delicate necklace",
-      "forbidden_traits": "no heavy makeup, no anime, no plastic doll skin"
+      "forbidden_traits": "no heavy makeup, no anime, no plastic doll skin",
+      "voice": "vi-VN-HoaiMyNeural",
+      "pitch": "+0Hz",
+      "rate": "+0%",
+      "vbee_voice_code": "hn_female_ngoc_trang"
     }
   }
 }

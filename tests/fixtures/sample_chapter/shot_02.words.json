@@ -1,0 +1,97 @@
+[
+ {
+  "text": "Nam",
+  "start": 0.1,
+  "end": 0.5
+ },
+ {
+  "text": "ngồi",
+  "start": 0.5,
+  "end": 0.75
+ },
+ {
+  "text": "tựa",
+  "start": 0.75,
+  "end": 0.9625
+ },
+ {
+  "text": "lưng",
+  "start": 0.9625,
+  "end": 1.2125
+ },
+ {
+  "text": "vào",
+  "start": 1.2125,
+  "end": 1.3375
+ },
+ {
+  "text": "ghế",
+  "start": 1.3375,
+  "end": 1.525
+ },
+ {
+  "text": "sofa",
+  "start": 1.525,
+  "end": 2.0625
+ },
+ {
+  "text": "chiếc",
+  "start": 2.2375,
+  "end": 2.525
+ },
+ {
+  "text": "áo",
+  "start": 2.525,
+  "end": 2.675
+ },
+ {
+  "text": "khoác",
+  "start": 2.675,
+  "end": 2.925
+ },
+ {
+  "text": "màu",
+  "start": 2.925,
+  "end": 3.125
+ },
+ {
+  "text": "rêu",
+  "start": 3.125,
+  "end": 3.2875
+ },
+ {
+  "text": "sẫm",
+  "start": 3.2875,
+  "end": 3.625
+ },
+ {
+  "text": "vẫn",
+  "start": 3.625,
+  "end": 3.825
+ },
+ {
+  "text": "còn",
+  "start": 3.825,
+  "end": 4.0875
+ },
+ {
+  "text": "ướt",
+  "start": 4.0875,
+  "end": 4.25
+ },
+ {
+  "text": "đẫm",
+  "start": 4.25,
+  "end": 4.475
+ },
+ {
+  "text": "nước",
+  "start": 4.475,
+  "end": 4.6625
+ },
+ {
+  "text": "mưa",
+  "start": 4.6625,
+  "end": 4.9625
+ }
+]
