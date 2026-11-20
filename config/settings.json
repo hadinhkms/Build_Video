@@ -47,9 +47,12 @@
       "true_peak_db": -1.5,
       "lra": 11.0
     },
-    "dramatic_pause_sec": 0.9
+    "dramatic_pause_sec": 0.9,
+    "tts_concurrency": 5
   },
   "visuals": {
+    "rembg_threads": "auto",
+    "rembg_device": "auto",
     "shot_min_duration": 4.0,
     "shot_max_duration": 6.5,
     "split_min_duration": 2.5,
@@ -67,7 +70,20 @@
   },
   "render": {
     "renderer": "ffmpeg",
-    "concurrency": null,
-    "crf": 18
+    "encoder": "auto",
+    "nvenc_preset": "p5",
+    "nvenc_cq": 24,
+    "ffmpeg_workers": "auto",
+    "concurrency": 16,
+    "gl": "angle",
+    "x264_preset": "veryfast",
+    "crf": 18,
+    "image_format": "jpeg",
+    "jpeg_quality": 85,
+    "media_cache_mb": 2048,
+    "offthread_video_cache_mb": 1024,
+    "offthread_video_threads": 4,
+    "scratch_dir": "auto",
+    "bundle_cache": true
   }
 }

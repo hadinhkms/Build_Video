@@ -149,28 +149,78 @@ class YouTubePackager:
         props_path: Path,
         output_image_path: Path,
         remotion_dir: Optional[Path] = None,
+        frame: int = 30,
+        scratch_dir: Optional[Path] = None,
+        chapter_id: Optional[str] = None,
+        gl: Optional[str] = None,
     ) -> bool:
-        """Render khung hình still ở 1920x1080 và thu nhỏ bằng ffmpeg sang 1280x720."""
-        r_dir = remotion_dir or (self.root / "remotion")
+        """Render khung hình still ở 1920x1080 (tái sử dụng NVMe bundle-cache) và thu nhỏ sang 1280x720."""
+        from src.core.scratch_manager import ScratchManager
+
+        props_path = Path(props_path)
+        output_image_path = Path(output_image_path)
+        r_dir = Path(remotion_dir) if remotion_dir else (self.root / "remotion")
         temp_still = output_image_path.parent / "temp_still_1080p.png"
         temp_still.parent.mkdir(parents=True, exist_ok=True)
 
+        resolved_chapter_id = chapter_id
+        if not resolved_chapter_id and props_path.exists():
+            try:
+                resolved_chapter_id = json.loads(props_path.read_text(encoding="utf-8")).get("chapterId")
+            except Exception:
+                resolved_chapter_id = None
+
+        render_cfg: Dict[str, Any] = {}
+        settings_path = self.config_dir / "settings.json"
+        if settings_path.exists():
+            try:
+                render_cfg = json.loads(settings_path.read_text(encoding="utf-8")).get("render", {})
+            except Exception:
+                render_cfg = {}
+
+        resolved_gl = gl or str(render_cfg.get("gl") or "angle")
+        resolved_scratch: Optional[Path] = Path(scratch_dir).resolve() if scratch_dir is not None else None
+        if resolved_scratch is None:
+            try:
+                mgr = ScratchManager(
+                    project_root=self.root,
+                    scratch_dir_setting=str(render_cfg.get("scratch_dir", "auto")),
+                )
+                resolved_scratch = mgr.scratch_root
+            except Exception:
+                resolved_scratch = None
+
         npx_cmd = "npx.cmd" if sys.platform == "win32" else "npx"
 
-        # Frame 30 thường nằm trong đoạn Hook
+        # Frame 30 thường nằm trong đoạn Hook; gọi render_stills.ts tái dùng NVMe bundle-cache
         cmd_still = [
             npx_cmd,
-            "remotion",
-            "still",
-            "src/index.ts",
+            "tsx",
+            "scripts/render_stills.ts",
+            "--props",
+            str(props_path.resolve()),
+            "--composition",
             "StoryComposition",
+            "--frame",
+            str(max(0, int(frame))),
+            "--out",
             str(temp_still.resolve()),
-            f"--props={str(props_path.resolve())}",
-            "--frame=30",
+            "--gl",
+            resolved_gl,
         ]
+        if resolved_scratch is not None:
+            cmd_still.extend(["--scratch-dir", str(resolved_scratch)])
+        if resolved_chapter_id:
+            cmd_still.extend(["--chapter-id", str(resolved_chapter_id)])
 
         try:
-            subprocess.run(cmd_still, cwd=str(r_dir), check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            subprocess.run(
+                cmd_still,
+                cwd=str(r_dir),
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
             if not temp_still.exists():
                 return False
 

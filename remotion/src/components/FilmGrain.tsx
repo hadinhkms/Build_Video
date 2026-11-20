@@ -24,12 +24,26 @@ export const FilmGrain: React.FC<FilmGrainProps> = ({
     <div
       className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden"
       style={{
-        backgroundImage: `url(${textureUrl})`,
-        backgroundRepeat: "repeat",
-        backgroundPosition: `${shiftX}px ${shiftY}px`,
+        contain: "paint",
+        overflow: "hidden",
         opacity,
         mixBlendMode: "overlay",
       }}
-    />
+    >
+      <div
+        className="absolute top-0 left-0 pointer-events-none"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "calc(100% + 256px)",
+          height: "calc(100% + 256px)",
+          backgroundImage: `url(${textureUrl})`,
+          backgroundRepeat: "repeat",
+          transform: `translate3d(-${shiftX}px, -${shiftY}px, 0)`,
+          willChange: "transform",
+        }}
+      />
+    </div>
   );
 };

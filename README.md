@@ -52,7 +52,11 @@ d:\_Short_film\
 │   ├── youtube_metadata.json           # Tiêu đề SEO, mô tả có chapters, 10-15 tags
 │   ├── thumbnail_base.png              # Ảnh nền thumbnail chuẩn 1280x720 (Lanczos)
 │   ├── render_props.json               # Hợp đồng dữ liệu giữa Python và Remotion
-│   └── render_report.json              # Báo cáo hiệu năng và thông số âm lượng
+│   ├── render_report.json              # Báo cáo hiệu năng và thông số render
+│   └── e2e_perf_report.json            # Báo cáo E2E 7 stage & kiểm chứng 5 bất biến kỹ thuật
+├── scripts/
+│   ├── benchmark_hardware.py           # Quét ma trận phần cứng (concurrency × gl × preset) & áp cấu hình tối ưu
+│   └── benchmark_e2e_report.py         # Đo E2E toàn chuỗi 7 stage & xác minh 5 bất biến kỹ thuật
 ├── src/                                # Lõi xử lý Python
 │   ├── core/                           # StateManager & Pydantic Data Models (RenderProps)
 │   ├── story/                          # StoryParser (5 hồi, phân vai, tách lời thoại)
@@ -105,6 +109,33 @@ python run_pipeline.py --renderer remotion --stage render --input input/sample_c
 - `--stage master`: Cân bằng âm lượng chuẩn YouTube (-14 LUFS) và mux final MP4.
 - `--stage package`: Xuất file SRT, `youtube_metadata.json` và `thumbnail_base.png`.
 - `--stage all`: Chạy liên tục từ đầu đến cuối (dùng ảnh dự phòng nếu thiếu ảnh).
+
+---
+
+## ⚡ Tối Ưu Hóa Phần Cứng (OPT Phases 1–4)
+
+Hệ thống tự động nhận diện phần cứng (`src/core/hardware_profile.py`) và tối ưu cho máy đa nhân + GPU NVIDIA + ổ NVMe rời, đồng thời tự động fallback an toàn về CPU khi thiếu GPU/NVMe:
+
+| Tùy chọn (`config/settings.json`) | Mặc định | Ý nghĩa |
+| :--- | :--- | :--- |
+| `render.encoder` | `"auto"` | `"auto"` (ưu tiên `h264_nvenc` có Turing B-frames cho cả Remotion & FFmpeg, tự fallback `libx264`), `"nvenc"`, hoặc `"libx264"`. |
+| `render.scratch_dir` | `"auto"` | `"auto"` đẩy toàn bộ bundle cache, `video.prenorm.mkv`, `clips/*.mov` sang NVMe (`%LOCALAPPDATA%\CineStory\scratch`) thay vì ghi lên USB HDD; hoặc chỉ định đường dẫn tuyệt đối. |
+| `render.bundle_cache` | `true` | Cache Webpack + Tailwind v4 trên NVMe theo hash mã nguồn (< 0.5s khi cache hit). |
+| `render.media_cache_mb` / `offthread_video_cache_mb` | `2048` / `1024` | Bộ nhớ đệm media Remotion tự co giãn theo dung lượng RAM thực tế. |
+| `audio.tts_concurrency` | `5` | Số luồng Edge-TTS bất đồng bộ đồng thời (Vbee tự giới hạn tối đa `2`). |
+| `visuals.rembg_threads` / `rembg_device` | `"auto"` / `"auto"` | Ghim `intra_op_num_threads` ONNX gọn trong 1 socket NUMA (tối đa 14 luồng) và tự chọn `CUDA`/`DirectML`/`CPU`. |
+
+**Công cụ đo hiệu năng & nghiệm thu phần cứng:**
+```powershell
+# 1. Quét hồ sơ phần cứng hiện tại
+python -m src.core.hardware_profile
+
+# 2. Benchmark sweep (concurrency × gl × preset) và tự áp cấu hình tốt nhất vào settings.json
+python scripts/benchmark_hardware.py --input input/sample_chapter.txt --frames 0-239 --apply
+
+# 3. Đo hiệu năng & kiểm chứng E2E đủ 7 stage + 5 bất biến kỹ thuật
+python scripts/benchmark_e2e_report.py --inputs input/sample_chapter.txt input/chapter_02.txt
+```
 
 ---
 

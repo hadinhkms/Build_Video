@@ -38,6 +38,7 @@ def measure_loudness(input_path: str, target_i: float, target_tp: float, target_
     """Lượt 1: đo input_i / input_tp / input_lra / input_thresh / target_offset."""
     cmd = [
         "ffmpeg", "-y", "-hide_banner", "-nostats",
+        "-threads", "0",
         "-i", input_path,
         "-af", _loudnorm_filter(target_i, target_tp, target_lra) + ":print_format=json",
         "-vn", "-f", "null", "-",
@@ -47,6 +48,10 @@ def measure_loudness(input_path: str, target_i: float, target_tp: float, target_
     if data is None or not needed.issubset(data.keys()):
         return None
     return data
+
+
+# Bù trễ overshoot ~0.05–0.15 dBTP phát sinh khi mã hóa lossy AAC 192k 44.1kHz sau loudnorm
+_AAC_TRUE_PEAK_HEADROOM_DB = 0.2
 
 
 def master_loudness(
@@ -61,8 +66,10 @@ def master_loudness(
     Lượt 2: chuẩn hóa audio theo số đo lượt 1, copy nguyên luồng video.
     Trả về số đo lượt 2 (output_i, output_tp, normalization_type...) hoặc None nếu thất bại.
     """
-    filter_str = _loudnorm_filter(target_i, target_tp, target_lra)
-    measurement = measure_loudness(input_path, target_i, target_tp, target_lra)
+    # Trừ biên dự phòng AAC (kẹp trong dải hợp lệ [-9.0, 0.0] của FFmpeg loudnorm) để bản MP4 cuối luôn <= target_tp
+    effective_tp = max(-9.0, min(0.0, round(target_tp - _AAC_TRUE_PEAK_HEADROOM_DB, 2)))
+    filter_str = _loudnorm_filter(target_i, effective_tp, target_lra)
+    measurement = measure_loudness(input_path, target_i, effective_tp, target_lra)
     if measurement is None:
         print("   [Cảnh báo] Không đo được loudness, chuyển sang chuẩn hóa 1 lượt")
     else:
@@ -97,7 +104,7 @@ def encode_without_mastering(input_path: str, output_path: str, sample_rate: int
 
 def _encode_final(input_path: str, output_path: str, sample_rate: int, audio_filter: Optional[str] = None) -> subprocess.CompletedProcess:
     """Copy nguyên luồng video, mã hóa audio AAC 1 lần duy nhất cho file MP4 cuối."""
-    cmd = ["ffmpeg", "-y", "-hide_banner", "-nostats", "-i", input_path, "-c:v", "copy"]
+    cmd = ["ffmpeg", "-y", "-hide_banner", "-nostats", "-threads", "0", "-i", input_path, "-c:v", "copy"]
     if audio_filter:
         cmd += ["-af", audio_filter]
     cmd += [

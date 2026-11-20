@@ -53,7 +53,26 @@ Kỹ năng này điều phối toàn bộ quy trình CineStory biến văn bản
 
 ---
 
-## 2. BẢNG XỬ LÝ LỖI THƯỜNG GẶP (TROUBLESHOOTING)
+## 2. CẤU HÌNH TỐI ƯU PHẦN CỨNG & BENCHMARK
+
+Các tùy chọn quan trọng trong `config/settings.json` (tự động fallback an toàn về CPU nếu không có GPU/NVMe):
+- `render.encoder`: `"auto"` (ưu tiên GPU `h264_nvenc`, fallback `libx264`), `"nvenc"`, hoặc `"libx264"`.
+- `render.scratch_dir`: `"auto"` (tự đẩy bundle cache & file tạm sang ổ NVMe `%LOCALAPPDATA%\CineStory\scratch`, tự dọn `work/<chapterId>/` sau khi master xong).
+- `audio.tts_concurrency`: `5` (chạy Edge-TTS song song có giới hạn; Vbee giới hạn tối đa `2`).
+- `visuals.rembg_threads` / `visuals.rembg_device`: `"auto"` (ghim luồng ONNX trong 1 socket NUMA, hỗ trợ `"cpu" | "cuda" | "dml"`).
+
+Lệnh benchmark phần cứng & nghiệm thu E2E:
+```powershell
+# Quét cấu hình tốt nhất (gl × concurrency × preset) và ghi vào settings.json
+python scripts/benchmark_hardware.py --input input/sample_chapter.txt --frames 0-239 --apply
+
+# Chạy & kiểm chứng E2E 7 stage + 5 bất biến kỹ thuật, xuất e2e_perf_report.json
+python scripts/benchmark_e2e_report.py --inputs input/sample_chapter.txt input/chapter_02.txt
+```
+
+---
+
+## 3. BẢNG XỬ LÝ LỖI THƯỜNG GẶP (TROUBLESHOOTING)
 
 | Lỗi gặp phải | Nguyên nhân | Cách khắc phục |
 | :--- | :--- | :--- |
@@ -61,11 +80,11 @@ Kỹ năng này điều phối toàn bộ quy trình CineStory biến văn bản
 | **Thiếu thư viện Node** | Thư mục `remotion/node_modules` chưa được cài đặt | Chạy `cd remotion; npm install` trong terminal. |
 | **Thiếu ffmpeg / ffprobe** | Máy chưa cài đặt hoặc chưa thêm vào PATH | Tải ffmpeg và thêm vào biến môi trường hệ thống PATH. |
 | **Chưa có ảnh bối cảnh/nhân vật** | Người dùng chưa kịp tạo ảnh | Pipeline tự động fallback sang ảnh nền mặc định mà không làm gãy luồng render. |
-| **Render hết RAM** | Concurrency quá cao trên máy yếu | Sửa `"concurrency"` trong `config/settings.json` thành 4 hoặc 8. |
+| **Render hết RAM / VRAM** | Concurrency quá cao so với GPU/RAM | Chạy `python scripts/benchmark_hardware.py --apply` hoặc giảm `"concurrency"` trong `config/settings.json`. |
 
 ---
 
-## 3. LỆNH XÁC MINH NHANH
+## 4. LỆNH XÁC MINH NHANH
 
 ```powershell
 python -m unittest discover -s tests

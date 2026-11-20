@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { Caption } from "../schemas/render-props";
 
@@ -61,7 +61,7 @@ function renderHighlightedText(rawText: string, highlights: string[]) {
     nodes.push(
       <span
         key={`hl-${st}`}
-        className="text-amber-300 font-bold drop-shadow-[0_2px_8px_rgba(245,158,11,0.6)]"
+        className="text-amber-300 font-bold [text-shadow:0_2px_8px_rgba(245,158,11,0.6)]"
       >
         {normalizedText.slice(st, en)}
       </span>
@@ -83,12 +83,19 @@ export const SubtitleBox: React.FC<SubtitleBoxProps> = ({
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  if (!enabled || !captions || captions.length === 0) {
-    return null;
-  }
-
   const t = frame / fps;
-  const cap = captions.find((c) => t >= c.start && t < c.end);
+  const cap =
+    enabled && captions && captions.length > 0
+      ? captions.find((c) => t >= c.start && t < c.end) ?? null
+      : null;
+
+  const capText = cap?.text ?? "";
+  const capHighlight = cap?.highlight;
+  const renderedText = useMemo(
+    () => (cap ? renderHighlightedText(capText, capHighlight ?? []) : null),
+    [cap, capText, capHighlight]
+  );
+
   if (!cap) {
     return null;
   }
@@ -116,9 +123,7 @@ export const SubtitleBox: React.FC<SubtitleBoxProps> = ({
           letterSpacing: "0.01em",
         }}
       >
-        <span className="text-white font-semibold">
-          {renderHighlightedText(cap.text, cap.highlight)}
-        </span>
+        <span className="text-white font-semibold">{renderedText}</span>
       </div>
     </div>
   );

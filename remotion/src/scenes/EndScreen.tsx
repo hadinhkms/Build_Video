@@ -46,7 +46,7 @@ export const EndScreen: React.FC<EndScreenProps> = ({ scene }) => {
       {/* Vùng an toàn để YouTube gắn End Screen Elements (Thẻ video & Nút đăng ký) */}
       <div className="relative z-10 w-full flex justify-end items-center gap-8 pb-8 pr-8 pointer-events-none">
         {/* Placeholder khung video tiếp theo */}
-        <div className="w-[420px] h-[236px] rounded-xl border border-white/20 bg-white/5 backdrop-brightness-50 flex items-center justify-center text-gray-400 text-sm">
+        <div className="w-[420px] h-[236px] rounded-xl border border-white/20 bg-black/45 flex items-center justify-center text-gray-400 text-sm">
           <span>Khung hiển thị Video tiếp theo</span>
         </div>
       </div>

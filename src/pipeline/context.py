@@ -1,10 +1,13 @@
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, Optional
 
+from src.core.hardware_profile import HardwareProfile, detect_hardware_profile
+from src.core.scratch_manager import ScratchManager
 from src.core.state_manager import StateManager
 from src.story_parser import slugify_chapter_id
+
 
 @dataclass
 class PipelineContext:
@@ -28,6 +31,19 @@ class PipelineContext:
     audio_dir: Path
     storyboard_path: Path
     state_mgr: StateManager
+    hardware_profile: Optional[HardwareProfile] = field(default=None)
+    scratch_manager: Optional[ScratchManager] = field(default=None)
+
+    def __post_init__(self) -> None:
+        if self.hardware_profile is None:
+            self.hardware_profile = detect_hardware_profile(Path.cwd())
+        if self.scratch_manager is None:
+            scratch_dir_setting = self.settings.get("render", {}).get("scratch_dir", "auto")
+            self.scratch_manager = ScratchManager(
+                project_root=Path.cwd(),
+                scratch_dir_setting=scratch_dir_setting,
+                hardware_profile=self.hardware_profile,
+            )
 
     @classmethod
     def create(
@@ -62,6 +78,15 @@ class PipelineContext:
         storyboard_path = chapter_dir / "storyboard.json"
         state_mgr = StateManager(state_file_path=str(storyboard_path))
 
+        project_root = Path.cwd()
+        hw_profile = detect_hardware_profile(project_root)
+        scratch_dir_setting = settings.get("render", {}).get("scratch_dir", "auto")
+        scratch_mgr = ScratchManager(
+            project_root=project_root,
+            scratch_dir_setting=scratch_dir_setting,
+            hardware_profile=hw_profile,
+        )
+
         return cls(
             chapter_file=chapter_file,
             output_name=output_name,
@@ -83,4 +108,6 @@ class PipelineContext:
             audio_dir=audio_dir,
             storyboard_path=storyboard_path,
             state_mgr=state_mgr,
+            hardware_profile=hw_profile,
+            scratch_manager=scratch_mgr,
         )

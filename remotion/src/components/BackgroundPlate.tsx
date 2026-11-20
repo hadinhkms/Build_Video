@@ -32,8 +32,11 @@ export const BackgroundPlate: React.FC<BackgroundPlateProps> = ({
   if (!src) return null;
 
   const resolvedSrc = staticFile(src);
+  const rawFilter = grade?.cssFilter?.trim();
+  const cssFilter =
+    rawFilter && rawFilter.toLowerCase() !== "none" ? rawFilter : undefined;
 
-  // 1. Chế độ Layered (có cropRect)
+  // 1. Chế độ Layered (có cropRect) — đặt filter trên wrapper 1920x1080 đã clip để giảm ~11× VRAM
   if (cropRect && backgroundSrc) {
     const { x, y, w, h } = cropRect;
     const innerWidthPercent = 100 / Math.max(0.01, w);
@@ -42,7 +45,13 @@ export const BackgroundPlate: React.FC<BackgroundPlateProps> = ({
     const innerTopPercent = -y * innerHeightPercent;
 
     return (
-      <div className="absolute inset-0 overflow-hidden w-full h-full pointer-events-none">
+      <div
+        className="absolute inset-0 overflow-hidden w-full h-full pointer-events-none"
+        style={{
+          contain: "layout style",
+          filter: cssFilter,
+        }}
+      >
         <div
           className="absolute inset-0 w-full h-full will-change-transform"
           style={{
@@ -57,7 +66,6 @@ export const BackgroundPlate: React.FC<BackgroundPlateProps> = ({
               height: `${innerHeightPercent}%`,
               left: `${innerLeftPercent}%`,
               top: `${innerTopPercent}%`,
-              filter: grade?.cssFilter ?? undefined,
             }}
           >
             <Img
@@ -82,13 +90,18 @@ export const BackgroundPlate: React.FC<BackgroundPlateProps> = ({
 
   // 2. Chế độ Full Image (ảnh tĩnh đơn lớp)
   return (
-    <div className="absolute inset-0 overflow-hidden w-full h-full pointer-events-none">
+    <div
+      className="absolute inset-0 overflow-hidden w-full h-full pointer-events-none"
+      style={{
+        contain: "layout style",
+        filter: cssFilter,
+      }}
+    >
       <div
         className="absolute inset-0 w-full h-full will-change-transform"
         style={{
           transform: `scale(${scale}) translate3d(${xPercent}%, 0, 0)`,
           transformOrigin: "center center",
-          filter: grade?.cssFilter ?? undefined,
         }}
       >
         <Img

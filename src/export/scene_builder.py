@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple
 
-from src.audio.envelope import compute_shot_envelope
+from src.audio.envelope import AudioEnvelopeCalculator, batch_compute_envelopes
 from src.audio.foley_planner import FoleyPlanner
 from src.core.models import (
     Caption,
@@ -47,6 +47,29 @@ def build_scenes(
         if act_val not in seen_acts:
             seen_acts.add(act_val)
             first_of_act_shot_ids.add(s.shot_id)
+
+    # Tiền tính & khử trùng lặp full_envelope theo từng tệp audio duy nhất (cảnh thoại khớp nhân vật trên hình)
+    unique_envelope_paths: List[Path] = []
+    seen_env_resolved: Set[Path] = set()
+    for s in story_shots:
+        speaking_char = s.on_screen_character_id or s.character_id
+        if not s.audio_file or not s.is_dialogue or s.speaker != speaking_char:
+            continue
+        audio_p = Path(s.audio_file)
+        if not audio_p.is_absolute():
+            audio_p = root / s.audio_file
+        if audio_p.exists():
+            resolved_p = audio_p.resolve()
+            if resolved_p not in seen_env_resolved:
+                seen_env_resolved.add(resolved_p)
+                unique_envelope_paths.append(resolved_p)
+
+    env_calc = AudioEnvelopeCalculator(fps=fps)
+    full_envelopes: Dict[Path, List[float]] = (
+        batch_compute_envelopes(unique_envelope_paths, fps=fps)
+        if unique_envelope_paths
+        else {}
+    )
 
     scenes: List[Scene] = []
 
@@ -174,22 +197,22 @@ def build_scenes(
                         )
                     )
 
-        # 5. Mouth envelope
+        # 5. Mouth envelope (cắt O(1) từ full_envelope đã khử trùng lặp theo file gốc)
         mouth_envelope = None
         if shot.kind == ShotKind.STORY and shot.audio_file:
-            audio_src_p = Path(shot.audio_file)
-            if not audio_src_p.is_absolute():
-                audio_src_p = root / shot.audio_file
-            mouth_envelope = compute_shot_envelope(
-                audio_path=audio_src_p if audio_src_p.exists() else None,
-                start_in_file_sec=float(getattr(shot, "audio_start_in_file_sec", 0.0) or 0.0),
-                duration_in_frames=int(shot.duration_frames),
-                is_dialogue=shot.is_dialogue,
-                speaker=shot.speaker,
-                on_screen_character_id=shot.on_screen_character_id,
-                character_id=shot.character_id,
-                fps=fps,
-            )
+            speaking_char = shot.on_screen_character_id or shot.character_id
+            if shot.is_dialogue and shot.speaker == speaking_char:
+                audio_src_p = Path(shot.audio_file)
+                if not audio_src_p.is_absolute():
+                    audio_src_p = root / shot.audio_file
+                if audio_src_p.exists():
+                    full_env = full_envelopes.get(audio_src_p.resolve())
+                    if full_env is not None:
+                        mouth_envelope = env_calc.slice_envelope(
+                            full_env,
+                            float(getattr(shot, "audio_start_in_file_sec", 0.0) or 0.0),
+                            int(shot.duration_frames),
+                        )
 
         # 6. Scene object
         kind_val = shot.kind.value if hasattr(shot.kind, "value") else str(shot.kind)

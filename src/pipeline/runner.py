@@ -89,9 +89,9 @@ def execute_pipeline(
             return False
         if not run_stage_video(ctx):
             return False
+        if not run_stage_master(ctx):
+            return False
         if ctx.renderer == "remotion":
-            if not run_stage_master(ctx):
-                return False
             if not run_stage_package(ctx):
                 return False
         return True

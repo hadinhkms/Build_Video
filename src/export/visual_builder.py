@@ -16,6 +16,7 @@ from src.core.models import (
 from src.export.clip_fit import plan_clip_fit
 from src.export.crop_utils import calculate_crop_rect, copy_file_if_different, get_media_duration
 from src.visuals.asset_check import AssetChecker
+from src.visuals.asset_optimizer import prepare_render_asset
 from src.visuals.face_rig import FaceRigProcessor
 
 def resolve_shot_image(shot: Shot, chapter_id: str, root: Path) -> Path:
@@ -147,7 +148,7 @@ def build_shot_visuals(
         elif mode == "layered":
             plate_path = Path(v_info["plate_path"])
             dst_plate = pub_env_dir / shot.environment_id / plate_path.name
-            copy_file_if_different(plate_path, dst_plate)
+            prepare_render_asset(plate_path, dst_plate, kind="plate")
             bg_rel = f"chapters/{chapter_id}/environments/{shot.environment_id}/{plate_path.name}"
 
             char_rel = None
@@ -159,7 +160,7 @@ def build_shot_visuals(
             if v_info.get("character_path"):
                 char_path = Path(v_info["character_path"])
                 dst_char = pub_char_dir / char_key / char_path.name
-                copy_file_if_different(char_path, dst_char)
+                prepare_render_asset(char_path, dst_char, kind="cutout")
                 char_rel = f"chapters/{chapter_id}/characters/{char_key}/{char_path.name}"
 
                 char_anchor = CharacterAnchor(
@@ -209,14 +210,14 @@ def build_shot_visuals(
                 src_p = Path(img_path_str)
                 dst_p = pub_images_dir / f"{shot.shot_id}.jpg"
                 if src_p.exists():
-                    copy_file_if_different(src_p, dst_p)
+                    prepare_render_asset(src_p, dst_p, kind="full_image")
                     copied_image_rel_paths.add(dst_p.relative_to(pub_images_dir).as_posix())
                 img_rel = f"chapters/{chapter_id}/images/{shot.shot_id}.jpg"
             else:
                 src_img = resolve_shot_image(shot, chapter_id, root)
                 dst_img = pub_images_dir / f"{shot.shot_id}.jpg"
                 if src_img.exists():
-                    copy_file_if_different(src_img, dst_img)
+                    prepare_render_asset(src_img, dst_img, kind="full_image")
                     copied_image_rel_paths.add(dst_img.relative_to(pub_images_dir).as_posix())
                 img_rel = f"chapters/{chapter_id}/images/{shot.shot_id}.jpg"
 

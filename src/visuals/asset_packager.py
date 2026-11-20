@@ -1,9 +1,10 @@
+from concurrent.futures import ThreadPoolExecutor
 import json
 import os
 import shutil
 import subprocess
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 
 class AssetPackager:
@@ -150,6 +151,8 @@ Pipeline sẽ:
         target_dir = (output_root or self.base_dir / "packages") / chapter_id / "shots"
         target_dir.mkdir(parents=True, exist_ok=True)
 
+        ffmpeg_voice_tasks: List[tuple] = []
+
         for shot in storyboard.shots:
             kind_str = str(getattr(shot, "kind", "")).lower()
             if kind_str not in ("story", "shotkind.story"):
@@ -174,7 +177,7 @@ Pipeline sẽ:
                 if default_img.exists():
                     shutil.copy2(default_img, target_img)
 
-            # 2. voice.wav
+            # 2. voice.wav (gom lệnh để cắt song song bằng ThreadPoolExecutor)
             audio_f = getattr(shot, "audio_file", None)
             if audio_f:
                 audio_src = Path(audio_f)
@@ -183,21 +186,21 @@ Pipeline sẽ:
                 if audio_src.exists():
                     start_sec = float(getattr(shot, "audio_start_in_file_sec", 0.0) or 0.0)
                     out_wav = shot_dir / "voice.wav"
-                    cmd = [
-                        "ffmpeg",
-                        "-y",
-                        "-v", "error",
-                        "-ss", str(start_sec),
-                        "-t", str(dur_sec),
-                        "-i", str(audio_src),
-                        "-ac", "1",
-                        "-ar", "16000",
-                        str(out_wav),
-                    ]
-                    try:
-                        subprocess.run(cmd, check=True)
-                    except Exception:
-                        pass
+                    ffmpeg_voice_tasks.append((
+                        shot.shot_id,
+                        out_wav,
+                        [
+                            "ffmpeg",
+                            "-y",
+                            "-v", "error",
+                            "-ss", str(start_sec),
+                            "-t", str(dur_sec),
+                            "-i", str(audio_src),
+                            "-ac", "1",
+                            "-ar", "16000",
+                            str(out_wav),
+                        ],
+                    ))
 
             # 3. motion_prompt.txt
             action_desc = getattr(shot, "action", "") or ""
@@ -222,5 +225,35 @@ Hướng dẫn sử dụng:
 """
             with open(shot_dir / "README.txt", "w", encoding="utf-8") as f:
                 f.write(readme_text)
+
+        if ffmpeg_voice_tasks:
+            def _cut_voice(task: tuple) -> None:
+                shot_id, out_wav, cmd = task
+                try:
+                    subprocess.run(
+                        cmd,
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.PIPE,
+                        text=True,
+                        encoding="utf-8",
+                        errors="replace",
+                        check=True,
+                    )
+                    if out_wav.exists() and out_wav.stat().st_size == 0:
+                        out_wav.unlink(missing_ok=True)
+                except Exception as exc:
+                    try:
+                        if out_wav.exists():
+                            out_wav.unlink()
+                    except OSError:
+                        pass
+                    print(f"[CẢNH BÁO] Lỗi cắt voice.wav cho cảnh {shot_id}: {exc}")
+
+            workers = min(8, len(ffmpeg_voice_tasks))
+            if workers <= 1:
+                _cut_voice(ffmpeg_voice_tasks[0])
+            else:
+                with ThreadPoolExecutor(max_workers=workers) as executor:
+                    list(executor.map(_cut_voice, ffmpeg_voice_tasks))
 
         return target_dir

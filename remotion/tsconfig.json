@@ -13,6 +13,6 @@
     "resolveJsonModule": true,
     "noUnusedLocals": true
   },
-  "include": ["src/**/*", "tests/**/*"],
+  "include": ["src/**/*", "tests/**/*", "scripts/**/*"],
   "exclude": ["remotion.config.ts", "node_modules"]
 }

@@ -26,13 +26,20 @@ export const TitleCard: React.FC<TitleCardProps> = ({ scene }) => {
 
   return (
     <div className="relative w-full h-full overflow-hidden bg-black flex items-center justify-center">
-      {/* Nền làm tối và mờ nhẹ */}
+      {/* Nền làm tối tĩnh với lớp vignette sạch (không dùng blur chạy từng frame) */}
       {resolvedSrc && (
         <div className="absolute inset-0 pointer-events-none scale-105">
           <Img
             src={resolvedSrc}
-            className="w-full h-full object-cover filter brightness-[0.25] saturate-50 blur-[2px]"
+            className="w-full h-full object-cover opacity-30 grayscale-[40%]"
             alt="title background"
+          />
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(circle at center, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.72) 100%)",
+            }}
           />
         </div>
       )}
@@ -46,11 +53,11 @@ export const TitleCard: React.FC<TitleCardProps> = ({ scene }) => {
           fontFamily: "var(--font-cinema), sans-serif",
         }}
       >
-        <span className="text-amber-400/90 text-xl font-bold uppercase tracking-[0.35em] mb-4 drop-shadow-md">
+        <span className="text-amber-400/90 text-xl font-bold uppercase tracking-[0.35em] mb-4 [text-shadow:0_2px_6px_rgba(0,0,0,0.65)]">
           CineStory Remotion
         </span>
 
-        <h1 className="text-white text-6xl md:text-7xl font-bold tracking-wide drop-shadow-2xl max-w-4xl leading-tight">
+        <h1 className="text-white text-6xl md:text-7xl font-bold tracking-wide [text-shadow:0_8px_24px_rgba(0,0,0,0.85)] max-w-4xl leading-tight">
           {scene.rawText}
         </h1>
 

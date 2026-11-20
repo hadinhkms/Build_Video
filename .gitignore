@@ -3,6 +3,9 @@ node_modules/
 __pycache__/
 *.pyc
 cache/
+*.envelope.json
+.script_signature.json
+.asset_opt_cache.json
 
 # Remotion & Render outputs
 .remotion/

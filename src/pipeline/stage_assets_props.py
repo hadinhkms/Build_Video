@@ -21,7 +21,11 @@ def run_stage_assets(ctx: PipelineContext) -> bool:
     pkg_dir = packager.export_package(ctx.chapter_id)
     print(f" -> Đã xuất gói prompt tạo ảnh tại: {pkg_dir}")
 
-    cutout_results = process_all_characters(Path("assets"))
+    cutout_results = process_all_characters(
+        Path("assets"),
+        settings=ctx.settings,
+        hardware_profile=ctx.hardware_profile,
+    )
     if cutout_results:
         print(f" -> Đã xử lý tách nền cho {len(cutout_results)} nhân vật: {list(cutout_results.keys())}")
 
@@ -83,8 +87,17 @@ def run_stage_stills(ctx: PipelineContext) -> bool:
         print(f"[Lỗi] Chưa có render_props.json. Vui lòng chạy stage props trước.")
         return False
 
-    stills_gen = StillsGenerator()
+    stills_gen = StillsGenerator(
+        project_root=ctx.scratch_manager.project_root if ctx.scratch_manager else None
+    )
     out_stills_dir = ctx.chapter_dir / "stills"
-    paths = stills_gen.render_scene_stills(props_path, out_stills_dir)
+    render_cfg = ctx.settings.get("render", {})
+    paths = stills_gen.render_scene_stills(
+        props_path,
+        out_stills_dir,
+        scratch_dir=ctx.scratch_manager.scratch_root if ctx.scratch_manager else None,
+        chapter_id=ctx.chapter_id,
+        gl=render_cfg.get("gl", "angle"),
+    )
     print(f" -> Đã render {len(paths)} ảnh still tại: {out_stills_dir}")
     return True
